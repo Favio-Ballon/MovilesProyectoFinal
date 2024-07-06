@@ -15,6 +15,11 @@
         android:theme="@style/Theme.MovilesProyectoFinal"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activities.RestaurantesActivity"
+            android:exported="false"
+            android:label="@string/title_activity_restaurantes"
+            android:theme="@style/Theme.MovilesProyectoFinal.NoActionBar" />
+        <activity
             android:name=".ui.activities.RegistrarseActivity"
             android:exported="false" />
         <activity

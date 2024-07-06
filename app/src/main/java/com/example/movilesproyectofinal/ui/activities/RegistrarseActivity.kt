@@ -1,5 +1,6 @@
 package com.example.movilesproyectofinal.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -48,7 +49,11 @@ class RegistrarseActivity : AppCompatActivity() {
 
     private fun setupEventListeners() {
         binding.btnRegistrarse.setOnClickListener {
-            model.registrarse()
+            val username = binding.txtName.text.toString()
+            val email = binding.txtEmail.text.toString()
+            val password = binding.txtPassword.text.toString()
+            val telefono = binding.txtTelefono.text.toString()
+            model.registrarse(username, email, password, telefono, this)
         }
     }
 
@@ -64,6 +69,14 @@ class RegistrarseActivity : AppCompatActivity() {
                 binding.imgLoading.visibility = android.view.View.VISIBLE
             } else {
                 binding.imgLoading.visibility = android.view.View.GONE
+            }
+        }
+
+        model.goToLogin.observe(this){
+            if (it){
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.example.movilesproyectofinal.ui.activities
 
 import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -66,6 +67,12 @@ class LoginActivity : AppCompatActivity() {
                 binding.imgLoading.visibility = View.VISIBLE
             } else {
                 binding.imgLoading.visibility = View.GONE
+            }
+        }
+        model.goToRestaurantes.observe(this) {
+            if (it) {
+                val intent = Intent(this, RestaurantesActivity::class.java)
+                startActivity(intent)
             }
         }
     }

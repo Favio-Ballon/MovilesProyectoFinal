@@ -28,16 +28,16 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        checkToken()
+
         setButton()
         setupViewModelObservers()
-
+        checkToken()
     }
 
     private fun checkToken() {
         val token = PreferencesRepository.getToken(this)
         if (token != null) {
-            Toast.makeText(this, "El token es: $token", Toast.LENGTH_SHORT).show()
+            model.goToVisitante()
         }
     }
 
@@ -72,7 +72,8 @@ class MainActivity : AppCompatActivity() {
 
         model.visitante.observe(this) {
             if (it) {
-                Toast.makeText(this, "Visitante", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, RestaurantesActivity::class.java)
+                startActivity(intent)
             }
         }
     }

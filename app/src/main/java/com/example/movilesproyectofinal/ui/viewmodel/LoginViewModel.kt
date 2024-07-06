@@ -25,6 +25,11 @@ class LoginViewModel : ViewModel() {
     val showLoading: LiveData<Boolean> get() = _showLoading
 
 
+    val _goToRestaurantes: MutableLiveData<Boolean> by lazy {
+        MutableLiveData<Boolean>(false)
+    }
+    val goToRestaurantes: LiveData<Boolean> get() = _goToRestaurantes
+
     fun login(email: String, password: String, context: Context) {
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -43,6 +48,7 @@ class LoginViewModel : ViewModel() {
                     PreferencesRepository.saveToken(token, context)
                     Toast.makeText(context, "Bienvenido", Toast.LENGTH_SHORT).show()
                     _showLoading.postValue(false)
+                    _goToRestaurantes.postValue(true)
                 }, failure = {
                     it.printStackTrace()
                     _showLoading.postValue(false)
