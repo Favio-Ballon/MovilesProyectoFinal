@@ -28,15 +28,14 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        setButton()
         setupViewModelObservers()
         checkToken()
+        setButton()
     }
 
     private fun checkToken() {
         val token = PreferencesRepository.getToken(this)
-        if (token != null) {
+        if (token != null && token != "") {
             model.goToVisitante()
         }
     }

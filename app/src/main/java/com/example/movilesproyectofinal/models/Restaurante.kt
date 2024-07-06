@@ -2,7 +2,7 @@ package com.example.movilesproyectofinal.models
 
 import com.squareup.moshi.Json
 
-typealias Restaurantes = List<Restaurante>
+typealias Restaurantes = ArrayList<Restaurante>
 
 data class Restaurante(
     val id: Long,

@@ -1,5 +1,6 @@
 package com.example.movilesproyectofinal.ui.adapters
 
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -30,13 +31,21 @@ class RestaurantesAdapter(
         holder.bind(restaurante, listener)
     }
 
+    fun update(restaurantes: Restaurantes) {
+        RestauranteList.clear()
+        RestauranteList.addAll(restaurantes)
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int = RestauranteList.size
 
     class RestauranteViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
 fun bind(restaurante: Restaurante, listener: OnRestauranteClickListener) {
+            Log.d("RestauranteViewHolder", "Restaurante: $restaurante")
             val binding = FragmentRestaurantesBinding.bind(itemView)
             binding.apply {
                 lblNombreRestaurante.text = restaurante.name
+
                 Glide.with(itemView).load(restaurante.logo).into(imgRestaurante)
                 root.setOnClickListener {
                     listener.onRestauranteClick(restaurante)

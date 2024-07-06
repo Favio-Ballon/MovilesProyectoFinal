@@ -4,6 +4,7 @@ import UserRepository
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -15,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.movilesproyectofinal.R
 import com.example.movilesproyectofinal.databinding.ActivityRestaurantesBinding
+import com.example.movilesproyectofinal.repositories.PreferencesRepository
 
 class RestaurantesActivity : AppCompatActivity() {
 
@@ -27,26 +29,32 @@ class RestaurantesActivity : AppCompatActivity() {
         binding = ActivityRestaurantesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.appBarRestaurantes.toolbar)
+        checkToken()
 
-        binding.appBarRestaurantes.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+        if(checkToken()) {
+            setSupportActionBar(binding.appBarRestaurantes.toolbar)
+            val drawerLayout: DrawerLayout = binding.drawerLayout
+            val navView: NavigationView = binding.navView
+            val navController = findNavController(R.id.nav_host_fragment_content_restaurantes)
+            // Passing each menu ID as a set of Ids because each
+            // menu should be considered as top level destinations.
+            appBarConfiguration = AppBarConfiguration(
+                setOf(
+                    R.id.nav_Restaurantes, R.id.logout
+                ), drawerLayout
+            )
+            setupActionBarWithNavController(navController, appBarConfiguration)
+            navView.setupWithNavController(navController)
         }
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_restaurantes)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_Restaurantes, R.id.logout
-            ), drawerLayout
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
         setLogout()
+    }
+
+    private fun checkToken(): Boolean {
+        val token = PreferencesRepository.getToken(this)
+        if (token != null && token != "") {
+            return true
+        }
+        return false
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

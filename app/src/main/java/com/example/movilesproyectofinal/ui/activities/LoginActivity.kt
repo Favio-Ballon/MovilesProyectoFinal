@@ -73,6 +73,7 @@ class LoginActivity : AppCompatActivity() {
             if (it) {
                 val intent = Intent(this, RestaurantesActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         }
     }

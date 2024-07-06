@@ -15,6 +15,6 @@ interface APIProyecto {
     @POST("registeruser")
     fun register(@Body loginRequest: RegisterRequestDTO): Call<LoginResponseDTO>
 
-    @POST("getRestaurante")
+    @POST("restaurants/search")
     fun getRestaurantes(): Call<Restaurantes>
 }
