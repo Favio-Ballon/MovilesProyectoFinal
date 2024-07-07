@@ -11,4 +11,11 @@
         android:label="Restaurantes"
         tools:layout="@layout/fragment_restaurantes_list" />
 
+    <fragment
+        android:id="@+id/nav_RestauranteDescripcion"
+        android:name="com.example.movilesproyectofinal.ui.fragment.RestauranteDescripcionFragment"
+        android:label="RestauranteDescripcion"
+        tools:layout="@layout/fragment_restaurante_descripcion"
+        />
+
 </navigation>

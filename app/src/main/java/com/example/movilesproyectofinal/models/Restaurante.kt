@@ -15,5 +15,6 @@ data class Restaurante(
     val userID: Long,
 
     val logo: String,
-    val owner: Owner
+    val owner: Owner,
+    val photos: List<Photo>
 )

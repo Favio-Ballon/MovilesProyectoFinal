@@ -19,10 +19,9 @@ import com.example.movilesproyectofinal.models.Restaurantes
 import com.example.movilesproyectofinal.repositories.PreferencesRepository
 import com.example.movilesproyectofinal.ui.adapters.RestaurantesAdapter
 import com.example.movilesproyectofinal.ui.viewmodel.RestaurantesViewModel
+import androidx.navigation.fragment.findNavController
 
-/**
- * A fragment representing a list of Items.
- */
+
 class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickListener {
 
     private val model : RestaurantesViewModel by viewModels()
@@ -41,6 +40,14 @@ class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickL
         setupViewModelObservers()
         model.fetchListaRestaurantes()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //hide everything
+        binding.list.visibility = View.GONE
+        model.fetchListaRestaurantes()
+
     }
 
     private fun checkToken() {
@@ -69,6 +76,7 @@ class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickL
                 binding.imgLoading.visibility = View.VISIBLE
             } else {
                 binding.imgLoading.visibility = View.GONE
+                binding.list.visibility = View.VISIBLE
             }
         }
     }
@@ -81,6 +89,8 @@ class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickL
     }
 
     override fun onRestauranteClick(restaurante: Restaurante) {
-        TODO("Not yet implemented")
+        val bundle = Bundle()
+        bundle.putLong("restauranteId", restaurante.id)
+        findNavController().navigate(R.id.nav_RestauranteDescripcion, bundle)
     }
 }

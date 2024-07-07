@@ -41,11 +41,9 @@ class RestaurantesAdapter(
 
     class RestauranteViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
 fun bind(restaurante: Restaurante, listener: OnRestauranteClickListener) {
-            Log.d("RestauranteViewHolder", "Restaurante: $restaurante")
             val binding = FragmentRestaurantesBinding.bind(itemView)
             binding.apply {
                 lblNombreRestaurante.text = restaurante.name
-
                 Glide.with(itemView).load(restaurante.logo).into(imgRestaurante)
                 root.setOnClickListener {
                     listener.onRestauranteClick(restaurante)
