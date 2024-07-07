@@ -7,6 +7,7 @@ import com.example.movilesproyectofinal.models.Restaurantes
 import com.example.movilesproyectofinal.models.dto.LoginRequestDTO
 import com.example.movilesproyectofinal.models.dto.LoginResponseDTO
 import com.example.movilesproyectofinal.models.dto.RegisterRequestDTO
+import com.example.movilesproyectofinal.models.dto.RestauranteFiltroDTO
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -32,5 +33,10 @@ interface APIProyecto {
     fun getMenuById(
         @Path("id") id: Int
     ): Call<Menus>
+
+    @POST("restaurants/search")
+    fun getRestaurantesFiltered(
+       @Body filter: RestauranteFiltroDTO
+    ): Call<Restaurantes>
 
 }

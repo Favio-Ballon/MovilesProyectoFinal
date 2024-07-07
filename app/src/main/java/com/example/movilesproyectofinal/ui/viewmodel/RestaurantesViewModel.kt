@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movilesproyectofinal.models.Restaurante
 import com.example.movilesproyectofinal.models.Restaurantes
+import com.example.movilesproyectofinal.models.dto.RestauranteFiltroDTO
 import com.example.movilesproyectofinal.repositories.RestauranteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,8 +15,8 @@ import kotlin.math.log
 
 class RestaurantesViewModel : ViewModel() {
 
-    private val _restaurantes : MutableLiveData<Restaurantes> by lazy {
-    MutableLiveData<Restaurantes>(Restaurantes())
+    private val _restaurantes: MutableLiveData<Restaurantes> by lazy {
+        MutableLiveData<Restaurantes>(Restaurantes())
     }
 
     val restaurantes: LiveData<Restaurantes> = _restaurantes
@@ -29,7 +30,17 @@ class RestaurantesViewModel : ViewModel() {
         MutableLiveData<Boolean>(false)
     }
     val showLoading: LiveData<Boolean> get() = _showLoading
-    fun fetchListaRestaurantes() {
+    fun fetchListaRestaurantes(city: String, date: String, time: String) {
+
+        if (city.isEmpty() && date.isEmpty() && time.isEmpty()) {
+            getListaRestaurantes()
+        } else {
+            getListaRestaurantesByCity(city, date, time)
+        }
+
+    }
+
+    fun getListaRestaurantes() {
         viewModelScope.launch(Dispatchers.IO) {
             _showLoading.postValue(true)
             RestauranteRepository.getRestaurantes(
@@ -47,6 +58,29 @@ class RestaurantesViewModel : ViewModel() {
                 })
 
 
+        }
+    }
+
+    fun getListaRestaurantesByCity(city: String, date: String, time: String) {
+
+        val restauranteFiltroDTO = RestauranteFiltroDTO(city, date, time)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            _showLoading.postValue(true)
+            RestauranteRepository.getRestaurantesFiltered(
+                    restauranteFiltroDTO,
+                success = { restaurantes ->
+                    restaurantes?.let {
+                        _restaurantes.postValue(ArrayList(it))
+                    }
+                    Log.d("RestaurantesViewModel", "fetchListaRestaurantes: ${restaurantes}")
+                    _showLoading.postValue(false)
+                },
+                failure = {
+                    _errorMessage.postValue(it.message)
+                    _showLoading.postValue(false)
+                    it.printStackTrace()
+                })
         }
     }
 }

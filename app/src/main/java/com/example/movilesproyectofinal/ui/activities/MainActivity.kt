@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.appBarRestaurantes.fab.hide()
+        setButtonListener()
 
         setLogout()
     }
@@ -101,6 +102,12 @@ class MainActivity : AppCompatActivity() {
         UserRepository.doLogout(this)
         Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show()
         findNavController(R.id.nav_host_fragment_content_restaurantes).navigate(R.id.nav_main)
+    }
+
+    fun setButtonListener() {
+        binding.appBarRestaurantes.fab.setOnClickListener {
+            findNavController(R.id.nav_host_fragment_content_restaurantes).navigate(R.id.nav_RestaurantesFiltro)
+        }
     }
 
 }

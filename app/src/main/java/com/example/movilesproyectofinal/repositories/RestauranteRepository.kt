@@ -4,6 +4,7 @@ import com.example.movilesproyectofinal.api.APIProyecto
 import com.example.movilesproyectofinal.models.Menus
 import com.example.movilesproyectofinal.models.Restaurante
 import com.example.movilesproyectofinal.models.Restaurantes
+import com.example.movilesproyectofinal.models.dto.RestauranteFiltroDTO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -56,6 +57,23 @@ object RestauranteRepository {
             }
 
             override fun onFailure(call: Call<Menus>, t: Throwable) {
+                failure(t)
+            }
+        })
+    }
+
+    fun getRestaurantesFiltered(filter: RestauranteFiltroDTO, success: (Restaurantes?) -> Unit, failure: (Throwable) -> Unit) {
+        val retrofit = RetrofitRepository.getRetrofitInstance()
+
+        val service: APIProyecto =
+            retrofit.create(APIProyecto::class.java)
+
+        service.getRestaurantesFiltered(filter).enqueue(object : Callback<Restaurantes> {
+            override fun onResponse(call: Call<Restaurantes>, response: Response<Restaurantes>) {
+                success(response.body())
+            }
+
+            override fun onFailure(call: Call<Restaurantes>, t: Throwable) {
                 failure(t)
             }
         })

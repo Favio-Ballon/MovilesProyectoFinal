@@ -1,6 +1,7 @@
 package com.example.movilesproyectofinal.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,11 @@ class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickL
 
     private val model: RestaurantesViewModel by viewModels()
     private lateinit var binding: FragmentRestaurantesListBinding
+
+    private var city = ""
+    private var date = ""
+    private var time = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -38,7 +44,8 @@ class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickL
         binding = FragmentRestaurantesListBinding.inflate(inflater, container, false)
         setUpRecyclerView()
         setupViewModelObservers()
-        model.fetchListaRestaurantes()
+
+
         (activity as MainActivity).binding.appBarRestaurantes.fab.show()
         return binding.root
     }
@@ -52,7 +59,15 @@ class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickL
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.list.visibility = View.GONE
-        model.fetchListaRestaurantes()
+
+        //get filters
+        city = arguments?.getString("city") ?: ""
+        date = arguments?.getString("date") ?: ""
+        time = arguments?.getString("time") ?: ""
+
+        Toast.makeText(context, "city: $city, date: $date, time: $time", Toast.LENGTH_LONG).show()
+
+        model.fetchListaRestaurantes(city, date, time)
 
     }
 
