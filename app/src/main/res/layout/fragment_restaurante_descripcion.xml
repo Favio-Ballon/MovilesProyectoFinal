@@ -87,15 +87,13 @@
 
             <!-- Photos RecyclerView -->
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/txtFotos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textSize="26dp"
-                android:text="Fotos"
                 android:gravity="center"
-                android:textStyle="bold"
-                />
+                android:textSize="26dp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/photosRecyclerView"

@@ -20,15 +20,15 @@ import com.example.movilesproyectofinal.repositories.PreferencesRepository
 import com.example.movilesproyectofinal.ui.adapters.RestaurantesAdapter
 import com.example.movilesproyectofinal.ui.viewmodel.RestaurantesViewModel
 import androidx.navigation.fragment.findNavController
+import com.example.movilesproyectofinal.ui.activities.MainActivity
 
 
 class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickListener {
 
-    private val model : RestaurantesViewModel by viewModels()
+    private val model: RestaurantesViewModel by viewModels()
     private lateinit var binding: FragmentRestaurantesListBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        checkToken()
     }
 
     override fun onCreateView(
@@ -39,23 +39,24 @@ class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickL
         setUpRecyclerView()
         setupViewModelObservers()
         model.fetchListaRestaurantes()
+        (activity as MainActivity).binding.appBarRestaurantes.fab.show()
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
         //hide everything
+        (activity as MainActivity).binding.appBarRestaurantes.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.appBarRestaurantes.fab.show()
+        (activity as MainActivity).isLogged()
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         binding.list.visibility = View.GONE
         model.fetchListaRestaurantes()
 
     }
 
-    private fun checkToken() {
-        val token = PreferencesRepository.getToken(context)
-        if (token != null) {
-            Toast.makeText(context, "El token es: $token", Toast.LENGTH_SHORT).show()
-        }
-    }
+
 
     fun setupViewModelObservers() {
         Glide.with(this)
@@ -92,5 +93,6 @@ class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickL
         val bundle = Bundle()
         bundle.putLong("restauranteId", restaurante.id)
         findNavController().navigate(R.id.nav_RestauranteDescripcion, bundle)
+        (activity as MainActivity).binding.appBarRestaurantes.fab.hide()
     }
 }

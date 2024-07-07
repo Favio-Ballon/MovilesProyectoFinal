@@ -18,4 +18,16 @@ object PreferencesRepository {
         )
         return sharedPref?.getString("token", null)
     }
+
+    fun getIsLogged(context: Context?): Boolean {
+        val sharedPref = context?.getSharedPreferences(
+            "proyecto-final", Context.MODE_PRIVATE
+        )
+        if(sharedPref?.getString("token", null) != null && sharedPref?.getString("token", null) != ""){
+            return true
+        }
+        return false
+    }
+
+
 }

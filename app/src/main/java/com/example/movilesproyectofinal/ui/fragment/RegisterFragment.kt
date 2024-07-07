@@ -13,6 +13,7 @@ import com.example.movilesproyectofinal.databinding.ActivityRegistrarseBinding
 import com.example.movilesproyectofinal.repositories.PreferencesRepository
 import com.example.movilesproyectofinal.ui.viewmodel.RegistrarseViewModel
 import androidx.navigation.fragment.findNavController
+import com.example.movilesproyectofinal.ui.activities.MainActivity
 
 class RegisterFragment : Fragment() {
 
@@ -32,13 +33,16 @@ class RegisterFragment : Fragment() {
             .load(R.drawable.loading)
             .into(binding.imgLoading)
 
+
+
         // Inflate the layout for this fragment
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-
+        (activity as MainActivity).binding.appBarRestaurantes.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.appBarRestaurantes.fab.hide()
     }
 
 

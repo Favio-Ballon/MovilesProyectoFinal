@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.movilesproyectofinal.R
 import com.example.movilesproyectofinal.databinding.ActivityLoginBinding
 import com.example.movilesproyectofinal.repositories.PreferencesRepository
+import com.example.movilesproyectofinal.ui.activities.MainActivity
 import com.example.movilesproyectofinal.ui.viewmodel.LoginViewModel
 
 class LoginFragment : Fragment() {
@@ -35,8 +36,16 @@ class LoginFragment : Fragment() {
         Glide.with(this)
             .load(R.drawable.loading)
             .into(binding.imgLoading)
+
+        (activity as MainActivity).binding.appBarRestaurantes.fab.hide()
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).binding.appBarRestaurantes.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.appBarRestaurantes.fab.hide()
     }
 
     private fun checkToken() {
@@ -69,7 +78,10 @@ class LoginFragment : Fragment() {
         }
         model.goToRestaurantes.observe(viewLifecycleOwner) {
             if (it) {
-                findNavController().navigate(R.id.nav_Restaurantes)
+                findNavController().popBackStack()
+                (activity as MainActivity).binding.navView.menu.findItem(R.id.nav_Login).isVisible = false
+                (activity as MainActivity).binding.navView.menu.findItem(R.id.nav_Registrarse).isVisible = false
+                (activity as MainActivity).binding.navView.menu.findItem(R.id.logout).isVisible = true
             }
         }
     }

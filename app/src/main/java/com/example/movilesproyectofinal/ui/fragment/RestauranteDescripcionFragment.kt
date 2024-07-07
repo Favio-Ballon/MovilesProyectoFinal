@@ -13,16 +13,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.movilesproyectofinal.R
 import com.example.movilesproyectofinal.databinding.FragmentRestauranteDescripcionBinding
+import com.example.movilesproyectofinal.repositories.PreferencesRepository
+import com.example.movilesproyectofinal.ui.activities.MainActivity
 import com.example.movilesproyectofinal.ui.adapters.GaleriaAdapter
 import com.example.movilesproyectofinal.ui.viewmodel.RestauranteDescripcionViewModel
 
 
-class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClickListener{
+class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClickListener {
 
-    private val model : RestauranteDescripcionViewModel by viewModels()
+    private val model: RestauranteDescripcionViewModel by viewModels()
 
-    private lateinit var binding : FragmentRestauranteDescripcionBinding
-    private var idRestaurante : Long = 0
+    private lateinit var binding: FragmentRestauranteDescripcionBinding
+    private var idRestaurante: Long = 0
 
     var containernombre: Int = 0
 
@@ -49,14 +51,17 @@ class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClick
         val restaurante = arguments?.getLong("restauranteId")
         if (restaurante != null) {
             model.fetchRestauranteDescripcion(restaurante.toInt())
-        }else{
-            Toast.makeText(context, "No se pudo obtener el id del restaurante", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "No se pudo obtener el id del restaurante", Toast.LENGTH_SHORT)
+                .show()
         }
+
+
         // Inflate the layout for this fragment
         return binding.root
     }
 
-    fun setImageLoading(){
+    fun setImageLoading() {
         Glide.with(this)
             .load(R.drawable.loading)
             .into(binding.imgLoading)
@@ -86,6 +91,7 @@ class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClick
             var ciudad = "Ciudad: " + it.city
             binding.addressTextView.text = ubicacion
             binding.cityTextView.text = ciudad
+            binding.txtFotos.text = "Fotos"
             Glide.with(this)
                 .load(it.logo)
                 .into(binding.logoImageView)
@@ -94,7 +100,12 @@ class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClick
         }
     }
 
-    fun setUpRecyclerView(){
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).isLogged()
+    }
+
+    fun setUpRecyclerView() {
         binding.photosRecyclerView.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = GaleriaAdapter(arrayListOf(), this@RestauranteDescripcionFragment)
@@ -116,15 +127,21 @@ class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClick
 
     }
 
-    fun setButtonListener(){
+    fun setButtonListener() {
         binding.btnMenu.setOnClickListener {
             Toast.makeText(context, "Se apreto menu", Toast.LENGTH_SHORT).show()
             val bundle = Bundle()
             bundle.putLong("restauranteId", idRestaurante)
             findNavController().navigate(R.id.nav_Menu, bundle)
         }
+        binding.btnReservar.setOnClickListener {
+            if (!PreferencesRepository.getIsLogged(requireContext())) {
+                findNavController().navigate(R.id.nav_Login)
+            }else{
+                Toast.makeText(context, "Se apreto reservar", Toast.LENGTH_SHORT).show()
+            }
+
+        }
 
     }
-
-
 }

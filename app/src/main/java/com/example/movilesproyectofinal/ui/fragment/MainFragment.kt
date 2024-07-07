@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.movilesproyectofinal.R
 import com.example.movilesproyectofinal.databinding.ActivityMainBinding
 import com.example.movilesproyectofinal.repositories.PreferencesRepository
+import com.example.movilesproyectofinal.ui.activities.MainActivity
 import com.example.movilesproyectofinal.ui.viewmodel.MainFragmentViewModel
 
 class MainFragment : Fragment() {
@@ -30,13 +31,27 @@ class MainFragment : Fragment() {
         setupViewModelObservers()
         setButton()
 
+
         // Inflate the layout for this fragment
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
+        checkLogin()
+        //(activity as MainActivity).binding.appBarRestaurantes.toolbar.visibility = View.GONE
+        (activity as MainActivity).binding.appBarRestaurantes.fab.hide()
+        //hide navigate up
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        //close menu if it is open
+        (activity as MainActivity).binding.drawerLayout.close()
+    }
 
+    private fun checkLogin() {
+        val token = PreferencesRepository.getIsLogged(context)
+        if (token) {
+            findNavController().navigate(R.id.nav_Restaurantes)
+        }
     }
 
 

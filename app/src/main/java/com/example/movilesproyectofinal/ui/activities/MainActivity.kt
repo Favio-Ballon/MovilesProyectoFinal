@@ -20,7 +20,7 @@ import com.google.android.material.navigation.NavigationView
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityRestaurantesBinding
+    lateinit var binding: ActivityRestaurantesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +45,20 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        if(PreferencesRepository.getIsLogged(this)){
+            navView.menu.findItem(R.id.nav_Login).isVisible = false
+            navView.menu.findItem(R.id.nav_Registrarse).isVisible = false
+            navController.navigate(R.id.nav_Restaurantes)
+
+        }else{
+            navView.menu.findItem(R.id.logout).isVisible = false
+            navView.menu.findItem(R.id.nav_Restaurantes).isVisible = true
+            navView.menu.findItem(R.id.nav_Login).isVisible = true
+            navView.menu.findItem(R.id.nav_Registrarse).isVisible = true
+        }
+
+        binding.appBarRestaurantes.fab.hide()
+
         setLogout()
     }
 
@@ -56,6 +70,18 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
+    fun isLogged() {
+        val token = PreferencesRepository.getIsLogged(this)
+        if (token) {
+            binding.navView.menu.findItem(R.id.nav_Login).isVisible = false
+            binding.navView.menu.findItem(R.id.nav_Registrarse).isVisible = false
+            binding.navView.menu.findItem(R.id.logout).isVisible = true
+        }else{
+            binding.navView.menu.findItem(R.id.nav_Login).isVisible = true
+            binding.navView.menu.findItem(R.id.nav_Registrarse).isVisible = true
+            binding.navView.menu.findItem(R.id.logout).isVisible = false
+        }
+    }
 
 
     override fun onSupportNavigateUp(): Boolean {

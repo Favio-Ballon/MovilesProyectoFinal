@@ -39,6 +39,7 @@ class FullScreenImageFragment : Fragment() {
         setupViewModelObservers()
         setupListeners()
         urlImage?.let { loadImage(it) }
+
         // Inflate the layout for this fragment
         return binding.root
     }
