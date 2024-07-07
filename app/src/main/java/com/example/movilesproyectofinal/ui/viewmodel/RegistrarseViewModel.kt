@@ -1,10 +1,10 @@
 package com.example.movilesproyectofinal.ui.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movilesproyectofinal.ui.fragment.RegisterFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -25,7 +25,10 @@ class RegistrarseViewModel : ViewModel() {
     }
     val goToLogin: LiveData<Boolean> get() = _goToLogin
 
-    fun registrarse(username: String,email: String, password: String, telefono : String, context: Context){
+    fun registrarse(
+        username: String,
+        email: String, password: String, telefono: String
+    ){
         viewModelScope.launch(Dispatchers.IO){
             _showLoading.postValue(true)
             UserRepository.doRegister(

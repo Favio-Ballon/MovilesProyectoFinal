@@ -1,6 +1,7 @@
 package com.example.movilesproyectofinal.repositories
 
 import com.example.movilesproyectofinal.api.APIProyecto
+import com.example.movilesproyectofinal.models.Menus
 import com.example.movilesproyectofinal.models.Restaurante
 import com.example.movilesproyectofinal.models.Restaurantes
 import retrofit2.Call
@@ -38,6 +39,23 @@ object RestauranteRepository {
             }
 
             override fun onFailure(call: Call<Restaurante?>, t: Throwable) {
+                failure(t)
+            }
+        })
+    }
+
+    fun getMenuById(id: Int, success: (Menus?) -> Unit, failure: (Throwable) -> Unit) {
+        val retrofit = RetrofitRepository.getRetrofitInstance()
+
+        val service: APIProyecto =
+            retrofit.create(APIProyecto::class.java)
+
+        service.getMenuById(id).enqueue(object : Callback<Menus> {
+            override fun onResponse(call: Call<Menus>, response: Response<Menus>) {
+                success(response.body())
+            }
+
+            override fun onFailure(call: Call<Menus>, t: Throwable) {
                 failure(t)
             }
         })

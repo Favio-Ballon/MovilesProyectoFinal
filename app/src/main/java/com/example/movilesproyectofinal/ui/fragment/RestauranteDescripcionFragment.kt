@@ -8,19 +8,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.movilesproyectofinal.R
 import com.example.movilesproyectofinal.databinding.FragmentRestauranteDescripcionBinding
-import com.example.movilesproyectofinal.ui.adapters.ImageAdapter
+import com.example.movilesproyectofinal.ui.adapters.GaleriaAdapter
 import com.example.movilesproyectofinal.ui.viewmodel.RestauranteDescripcionViewModel
 
 
-class RestauranteDescripcionFragment : Fragment(), ImageAdapter.OnGaleriaClickListener{
+class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClickListener{
 
     private val model : RestauranteDescripcionViewModel by viewModels()
 
     private lateinit var binding : FragmentRestauranteDescripcionBinding
+    private var idRestaurante : Long = 0
 
     var containernombre: Int = 0
 
@@ -41,6 +43,7 @@ class RestauranteDescripcionFragment : Fragment(), ImageAdapter.OnGaleriaClickLi
         setupViewModelObservers()
         setImageLoading()
         setUpRecyclerView()
+        setButtonListener()
 
         //conseguimos el id del restaurante
         val restaurante = arguments?.getLong("restauranteId")
@@ -60,38 +63,41 @@ class RestauranteDescripcionFragment : Fragment(), ImageAdapter.OnGaleriaClickLi
     }
 
     fun setupViewModelObservers() {
-        model.errorMessage.observe(this) {
+        model.errorMessage.observe(viewLifecycleOwner) {
             if (it != null) {
                 Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             }
         }
-        model.showLoading.observe(this) {
+        model.showLoading.observe(viewLifecycleOwner) {
             if (it) {
                 binding.imgLoading.visibility = View.VISIBLE
             } else {
                 binding.imgLoading.visibility = View.GONE
             }
         }
-        model.restaurante.observe(this) {
+        model.restaurante.observe(viewLifecycleOwner) {
             if (it == null) {
                 return@observe
             }
+            idRestaurante = it.id
             binding.nameTextView.text = it.name
             binding.descriptionTextView.text = it.description
-            binding.addressTextView.text = it.address
-            binding.cityTextView.text = it.city
+            var ubicacion = "Ubicacion: " + it.address
+            var ciudad = "Ciudad: " + it.city
+            binding.addressTextView.text = ubicacion
+            binding.cityTextView.text = ciudad
             Glide.with(this)
                 .load(it.logo)
                 .into(binding.logoImageView)
-            binding.photosRecyclerView.adapter = ImageAdapter(it.photos, this)
+            binding.photosRecyclerView.adapter = GaleriaAdapter(it.photos, this)
             Log.d("RestauranteDescripcionFragment", "Restaurante: $it")
         }
     }
 
     fun setUpRecyclerView(){
         binding.photosRecyclerView.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = ImageAdapter(arrayListOf(), this@RestauranteDescripcionFragment)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = GaleriaAdapter(arrayListOf(), this@RestauranteDescripcionFragment)
         }
     }
 
@@ -107,6 +113,16 @@ class RestauranteDescripcionFragment : Fragment(), ImageAdapter.OnGaleriaClickLi
 
         //Toast.makeText(context, galeria, Toast.LENGTH_SHORT).show()
 
+
+    }
+
+    fun setButtonListener(){
+        binding.btnMenu.setOnClickListener {
+            Toast.makeText(context, "Se apreto menu", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle()
+            bundle.putLong("restauranteId", idRestaurante)
+            findNavController().navigate(R.id.nav_Menu, bundle)
+        }
 
     }
 

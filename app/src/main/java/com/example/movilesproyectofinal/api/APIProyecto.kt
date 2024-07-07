@@ -1,5 +1,7 @@
 package com.example.movilesproyectofinal.api
 
+import com.example.movilesproyectofinal.models.Menu
+import com.example.movilesproyectofinal.models.Menus
 import com.example.movilesproyectofinal.models.Restaurante
 import com.example.movilesproyectofinal.models.Restaurantes
 import com.example.movilesproyectofinal.models.dto.LoginRequestDTO
@@ -25,4 +27,10 @@ interface APIProyecto {
     fun getRestauranteById(
         @Path("id") id: Int
     ): Call<Restaurante>
+
+    @GET("restaurants/{id}/menu")
+    fun getMenuById(
+        @Path("id") id: Int
+    ): Call<Menus>
+
 }

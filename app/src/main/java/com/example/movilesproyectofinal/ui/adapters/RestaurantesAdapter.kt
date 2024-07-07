@@ -1,11 +1,10 @@
 package com.example.movilesproyectofinal.ui.adapters
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+
 import com.bumptech.glide.Glide
 
 import com.example.movilesproyectofinal.databinding.FragmentRestaurantesBinding
@@ -40,7 +39,7 @@ class RestaurantesAdapter(
     override fun getItemCount(): Int = RestauranteList.size
 
     class RestauranteViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-fun bind(restaurante: Restaurante, listener: OnRestauranteClickListener) {
+        fun bind(restaurante: Restaurante, listener: OnRestauranteClickListener) {
             val binding = FragmentRestaurantesBinding.bind(itemView)
             binding.apply {
                 lblNombreRestaurante.text = restaurante.name

@@ -57,6 +57,7 @@ dependencies {
     //coroutines
     implementation(libs.kotlinx.coroutines.android)
 
+    implementation("androidx.core:core:1.7.0")
 
 
 

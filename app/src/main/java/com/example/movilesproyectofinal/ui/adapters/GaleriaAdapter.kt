@@ -9,10 +9,10 @@ import com.example.movilesproyectofinal.R
 import com.example.movilesproyectofinal.databinding.GaleriaItemBinding
 import com.example.movilesproyectofinal.models.Photo
 
-class ImageAdapter(
+class GaleriaAdapter(
     private val fotos: List<Photo>,
     val listener: OnGaleriaClickListener
-) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+) : RecyclerView.Adapter<GaleriaAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         val binding = GaleriaItemBinding.inflate(

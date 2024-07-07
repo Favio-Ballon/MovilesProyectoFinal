@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
+import com.example.movilesproyectofinal.R
 
 import com.example.movilesproyectofinal.databinding.FragmentFullScreenImageBinding
 import com.example.movilesproyectofinal.ui.viewmodel.FullScreenImageViewModel
@@ -33,6 +35,7 @@ class FullScreenImageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentFullScreenImageBinding.inflate(inflater, container, false)
+        setImageLoading()
         setupViewModelObservers()
         setupListeners()
         urlImage?.let { loadImage(it) }
@@ -58,6 +61,11 @@ class FullScreenImageFragment : Fragment() {
             }
     }
 
+    fun setImageLoading(){
+        Glide.with(this)
+            .load(R.drawable.loading)
+            .into(binding.imgLoading)
+    }
     private fun setupViewModelObservers() {
         model.closeActivity.observe(viewLifecycleOwner) {
             if (it) {

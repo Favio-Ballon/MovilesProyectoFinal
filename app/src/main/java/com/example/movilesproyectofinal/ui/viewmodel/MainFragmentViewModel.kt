@@ -3,7 +3,7 @@ package com.example.movilesproyectofinal.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-class MainViewModel : ViewModel() {
+class MainFragmentViewModel : ViewModel() {
     private val _login : MutableLiveData<Boolean> by lazy {
         MutableLiveData <Boolean>(false)
     }
@@ -33,6 +33,19 @@ class MainViewModel : ViewModel() {
     fun goToVisitante(){
         _visitante.value = true
     }
+
+    fun goToLoginComplete(){
+        _login.value = false
+    }
+
+    fun goToRegistrarseComplete(){
+        _register.value = false
+    }
+
+    fun goToVisitanteComplete(){
+        _visitante.value = false
+    }
+
 
 
 

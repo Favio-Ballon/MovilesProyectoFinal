@@ -61,17 +61,17 @@ class RestaurantesFragment : Fragment(), RestaurantesAdapter.OnRestauranteClickL
         Glide.with(this)
             .load(R.drawable.loading)
             .into(binding.imgLoading)
-        model.restaurantes.observe(this) {
+        model.restaurantes.observe(viewLifecycleOwner) {
             val lstRestaurantes = binding.list
             lstRestaurantes.adapter = RestaurantesAdapter(it, this)
         }
-        model.errorMessage.observe(this) {
+        model.errorMessage.observe(viewLifecycleOwner) {
             if (it != "") {
                 Toast.makeText(context, it, Toast.LENGTH_LONG).show()
             }
         }
 
-        model.showLoading.observe(this) {
+        model.showLoading.observe(viewLifecycleOwner) {
             if (it) {
                 binding.imgLoading.visibility = View.VISIBLE
             } else {

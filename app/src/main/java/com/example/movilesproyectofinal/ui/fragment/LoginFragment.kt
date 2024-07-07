@@ -1,37 +1,33 @@
-package com.example.movilesproyectofinal.ui.activities
+package com.example.movilesproyectofinal.ui.fragment
 
-import android.app.Activity
-import android.content.Intent
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
-import android.text.Editable
-import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.movilesproyectofinal.R
 import com.example.movilesproyectofinal.databinding.ActivityLoginBinding
 import com.example.movilesproyectofinal.repositories.PreferencesRepository
-
 import com.example.movilesproyectofinal.ui.viewmodel.LoginViewModel
 
-class LoginActivity : AppCompatActivity() {
+class LoginFragment : Fragment() {
 
-    val model: LoginViewModel by viewModels()
-    private lateinit var binding: ActivityLoginBinding
+    lateinit var binding : ActivityLoginBinding
+    private val model: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = ActivityLoginBinding.inflate(inflater, container, false)
 
         checkToken()
         setupEventListeners()
@@ -39,12 +35,14 @@ class LoginActivity : AppCompatActivity() {
         Glide.with(this)
             .load(R.drawable.loading)
             .into(binding.imgLoading)
+        // Inflate the layout for this fragment
+        return binding.root
     }
 
     private fun checkToken() {
-        val token = PreferencesRepository.getToken(this)
+        val token = PreferencesRepository.getToken(requireContext())
         if (token != null) {
-            Toast.makeText(this, "El token es: $token", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "El token es: $token", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -52,32 +50,28 @@ class LoginActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             val user = binding.username.text.toString()
             val password = binding.password.text.toString()
-            model.login(user, password, this)
+            model.login(user, password, requireContext())
         }
     }
 
     private fun setupViewModelObservers() {
-        model.errorMessage.observe(this) {
+        model.errorMessage.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
-                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
         }
-        model.showLoading.observe(this) {
+        model.showLoading.observe(viewLifecycleOwner) {
             if (it) {
                 binding.imgLoading.visibility = View.VISIBLE
             } else {
                 binding.imgLoading.visibility = View.GONE
             }
         }
-        model.goToRestaurantes.observe(this) {
+        model.goToRestaurantes.observe(viewLifecycleOwner) {
             if (it) {
-                val intent = Intent(this, RestaurantesActivity::class.java)
-                startActivity(intent)
-                finish()
+                findNavController().navigate(R.id.nav_Restaurantes)
             }
         }
     }
 
-
 }
-
