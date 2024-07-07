@@ -22,7 +22,7 @@ class RestauranteDescripcionFragment : Fragment(), ImageAdapter.OnGaleriaClickLi
 
     private lateinit var binding : FragmentRestauranteDescripcionBinding
 
-
+    var containernombre: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +36,7 @@ class RestauranteDescripcionFragment : Fragment(), ImageAdapter.OnGaleriaClickLi
 
         binding = FragmentRestauranteDescripcionBinding.inflate(inflater, container, false)
 
+        containernombre = R.id.container
 
         setupViewModelObservers()
         setImageLoading()
@@ -96,7 +97,15 @@ class RestauranteDescripcionFragment : Fragment(), ImageAdapter.OnGaleriaClickLi
 
     override fun onGaleriaClick(galeria: String) {
         // make image full screen
+        val fullScreenImageFragment = FullScreenImageFragment.newInstance(galeria)
 
+
+        childFragmentManager.beginTransaction()
+            .replace(binding.root.id, fullScreenImageFragment)
+            .addToBackStack(null)
+            .commit()
+
+        //Toast.makeText(context, galeria, Toast.LENGTH_SHORT).show()
 
 
     }
