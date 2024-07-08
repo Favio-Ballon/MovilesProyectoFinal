@@ -1,16 +1,17 @@
 package com.example.movilesproyectofinal.ui.viewmodel
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movilesproyectofinal.models.dto.RestaurantCreateRequestDTO
 import com.example.movilesproyectofinal.repositories.RestauranteRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class CrearRestauranteViewModel : ViewModel() {
+class SubirImagenViewModel : ViewModel() {
     private val _errorMessage: MutableLiveData<String> by lazy {
         MutableLiveData<String>("")
     }
@@ -21,57 +22,76 @@ class CrearRestauranteViewModel : ViewModel() {
     }
     val showLoading: LiveData<Boolean> get() = _showLoading
 
-    private val _crearRestaurante: MutableLiveData<Boolean> by lazy {
+    private val _subirImagen: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>(false)
     }
-    val crearRestaurante: LiveData<Boolean> get() = _crearRestaurante
+    val subirImagen: LiveData<Boolean> get() = _subirImagen
 
-    fun crearRestaurante(name: String, description: String, address: String, city: String, token : String) {
-        if(name.isEmpty() || description.isEmpty() || address.isEmpty() || city.isEmpty()){
-            _errorMessage.postValue("Todos los campos son obligatorios")
-            return
+    private val _selectedImageUri = MutableLiveData<Uri?>()
+    val selectedImageUri: LiveData<Uri?> = _selectedImageUri
+
+    private val _selectedImageBitmap = MutableLiveData<Bitmap?>()
+    val selectedImageBitmap: LiveData<Bitmap?> = _selectedImageBitmap
+
+    fun setImageUri(uri: Uri?) {
+        _selectedImageUri.value = uri
+    }
+
+    fun setImageBitmap(bitmap: Bitmap?) {
+        _selectedImageBitmap.value = bitmap
+    }
+
+    fun subirImagen(id: Long, isLogo: Boolean, imagen: Bitmap, token: String?) {
+        if (token != null && token.isNotEmpty() && id > 0) {
+            if (isLogo) {
+                subirLogo(id, imagen, token)
+            } else {
+                subirGaleria(id, imagen, token)
+            }
         }
+    }
+
+    fun subirLogo(id: Long, imagen: Bitmap, token: String) {
+
         viewModelScope.launch(Dispatchers.IO) {
             _showLoading.postValue(true)
-            val restaurante = RestaurantCreateRequestDTO(name,address,city,description)
-            RestauranteRepository.createRestaurant(
-                restaurante,
+            RestauranteRepository.uploadLogo(
+                id.toInt(),
+                imagen,
                 token,
                 success = {
+                    _subirImagen.postValue(true)
                     _showLoading.postValue(false)
-                    _crearRestaurante.postValue(true)
                 },
                 failure = {
                     _errorMessage.postValue(it.message)
                     _showLoading.postValue(false)
                     it.printStackTrace()
                 })
+
 
         }
     }
 
-    fun editarRestaurante(id : Int,name: String, description: String, address: String, city: String, token : String){
-        if(name.isEmpty() || description.isEmpty() || address.isEmpty() || city.isEmpty()){
-            _errorMessage.postValue("Todos los campos son obligatorios")
-            return
-        }
+    fun subirGaleria(id: Long, imagen: Bitmap, token: String) {
+
         viewModelScope.launch(Dispatchers.IO) {
             _showLoading.postValue(true)
-            val restaurante = RestaurantCreateRequestDTO(name,address,city,description)
-            RestauranteRepository.editRestaurant(
-                restaurante,
+            RestauranteRepository.uploadGallery(
+                id.toInt(),
+                imagen,
                 token,
-                id,
                 success = {
+                    _subirImagen.postValue(true)
                     _showLoading.postValue(false)
-                    _crearRestaurante.postValue(true)
                 },
                 failure = {
                     _errorMessage.postValue(it.message)
                     _showLoading.postValue(false)
                     it.printStackTrace()
                 })
-
         }
+
+
     }
 }

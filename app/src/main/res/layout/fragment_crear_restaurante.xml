@@ -1,14 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".ui.fragment.CrearRestauranteFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <!-- Campo para el nombre del restaurante -->
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del Restaurante"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Campo para la dirección del restaurante -->
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dirección"
+        android:inputType="textPostalAddress"
+        android:padding="10dp"
+        android:layout_below="@id/name"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Campo para la ciudad del restaurante -->
+    <EditText
+        android:id="@+id/city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ciudad"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:layout_below="@id/address"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Campo para la descripción del restaurante -->
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descripción"
+        android:inputType="textMultiLine"
+        android:minLines="3"
+        android:padding="10dp"
+        android:layout_below="@id/city"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Botón para cambiar logo del restaurante -->
+
+    <!-- Botón para agregar foto a la galería del restaurante -->
+
+    <!-- Botón para crear el restaurante -->
+
+    <Button
+        android:id="@+id/btnChangeLogo"
+        android:layout_width="163dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="233dp"
+        android:layout_marginTop="321dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        android:text="Cambiar Logo" />
+
+    <Button
+        android:id="@+id/btnAddPhotoGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="322dp"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone"
+        android:text="Agregar Foto Galería" />
+
+    <Button
+        android:id="@+id/btnCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crear Restaurante"
+        android:layout_below="@id/description"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/imgLoading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:src="@drawable/loading"
+        android:visibility="gone" />
+
+</RelativeLayout>

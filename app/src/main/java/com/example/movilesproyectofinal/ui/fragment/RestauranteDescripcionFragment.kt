@@ -28,6 +28,8 @@ class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClick
 
     var containernombre: Int = 0
 
+    private var isOwner = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,6 +58,13 @@ class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClick
                 .show()
         }
 
+        isOwner = arguments?.getBoolean("isOwner") ?: false
+
+        if (isOwner) {
+            setOwnerButton()
+        }else{
+            setButtonListener()
+        }
 
         // Inflate the layout for this fragment
         return binding.root
@@ -65,6 +74,24 @@ class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClick
         Glide.with(this)
             .load(R.drawable.loading)
             .into(binding.imgLoading)
+    }
+
+    fun setOwnerButton(){
+        binding.btnReservar.text = "Reservas"
+
+        binding.btnMenu.setOnClickListener {
+            Toast.makeText(context, "Se apreto menu", Toast.LENGTH_SHORT).show()
+            val bundle = Bundle()
+            bundle.putLong("restauranteId", idRestaurante)
+            findNavController().navigate(R.id.nav_Menu, bundle)
+        }
+
+        binding.btnReservar.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putLong("restauranteId", idRestaurante)
+            findNavController().navigate(R.id.nav_misReservas, bundle)
+        }
+
     }
 
     fun setupViewModelObservers() {

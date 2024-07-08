@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/nav_RestauranteDescripcion"
         android:name="com.example.movilesproyectofinal.ui.fragment.RestauranteDescripcionFragment"
-        android:label="RestauranteDescripcion"
+        android:label="Descripcion Restaurante"
         tools:layout="@layout/fragment_restaurante_descripcion"
         />
     <fragment
@@ -44,13 +44,13 @@
     <fragment
         android:id="@+id/nav_RestaurantesFiltro"
         android:name="com.example.movilesproyectofinal.ui.fragment.RestaurantesFiltroFragment"
-        android:label="RestaurantesFiltro"
+        android:label="Buscar Restaurantes por Filtro"
         tools:layout="@layout/fragment_restaurantes_filtro" />
 
     <fragment
         android:id="@+id/nav_RestauranteReservacion"
         android:name="com.example.movilesproyectofinal.ui.fragment.RestauranteReservacionFragment"
-        android:label="RestauranteReservacion"
+        android:label="Reservar Restaurante"
         tools:layout="@layout/fragment_restaurante_reservacion" />
 
     <fragment
@@ -64,5 +64,24 @@
         android:name="com.example.movilesproyectofinal.ui.fragment.ReservaDescripcionFragment"
         android:label="ReservaDescripcion"
         tools:layout="@layout/fragment_reserva_descripcion" />
+
+<fragment
+    android:id="@+id/nav_CrearRestaurante"
+    android:name="com.example.movilesproyectofinal.ui.fragment.CrearRestauranteFragment"
+    android:label="Crear Restaurante"
+    tools:layout="@layout/fragment_crear_restaurante" />
+
+    <fragment
+        android:id="@+id/nav_misRestaurantes"
+        android:name="com.example.movilesproyectofinal.ui.fragment.MisRestaurantesFragment"
+        android:label="Mis Restaurantes"
+        tools:layout="@layout/fragment_mis_restaurantes" />
+
+    <fragment
+        android:id="@+id/nav_subirImagen"
+        android:name="com.example.movilesproyectofinal.ui.fragment.SubirImagenFragment"
+        android:label="Subir Imagen"
+        tools:layout="@layout/fragment_subir_imagen" />
+
 
 </navigation>

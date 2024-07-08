@@ -25,6 +25,7 @@ class MisReservasFragment : Fragment(), ReservaAdappter.OnReservaClickListener {
 
     private val model : MisReservasViewModel by viewModels()
     lateinit var binding : FragmentMisReservasBinding
+    var id : Long ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,13 @@ class MisReservasFragment : Fragment(), ReservaAdappter.OnReservaClickListener {
 
         setUpRecyclerView()
         setupViewModelObservers()
-        model.fetchReservas(PreferencesRepository.getToken(context))
+
+        id = arguments?.getLong("restauranteId") ?: null
+        if (id != null) {
+            model.fetchReservasByRestaurante(PreferencesRepository.getToken(context), id!!.toInt())
+        } else {
+            model.fetchReservas(PreferencesRepository.getToken(context))
+        }
 
         return binding.root
     }

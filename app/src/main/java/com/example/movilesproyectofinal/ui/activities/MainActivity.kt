@@ -16,7 +16,6 @@ import com.example.movilesproyectofinal.R
 import com.example.movilesproyectofinal.databinding.ActivityRestaurantesBinding
 import com.example.movilesproyectofinal.repositories.PreferencesRepository
 import com.google.android.material.navigation.NavigationView
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_Restaurantes, R.id.nav_Login, R.id.nav_Registrarse,R.id.nav_misReservas , R.id.logout
+                R.id.nav_Restaurantes, R.id.nav_Login, R.id.nav_Registrarse, R.id.nav_misReservas , R.id.nav_CrearRestaurante, R.id.nav_misRestaurantes, R.id.logout
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -81,11 +80,15 @@ class MainActivity : AppCompatActivity() {
             binding.navView.menu.findItem(R.id.logout).isVisible = true
             binding.navView.menu.findItem(R.id.nav_Restaurantes).isVisible = true
             binding.navView.menu.findItem(R.id.nav_misReservas).isVisible = true
+            binding.navView.menu.findItem(R.id.nav_CrearRestaurante).isVisible = true
+            binding.navView.menu.findItem(R.id.nav_misRestaurantes).isVisible = true
         }else{
             binding.navView.menu.findItem(R.id.nav_Login).isVisible = true
             binding.navView.menu.findItem(R.id.nav_Registrarse).isVisible = true
             binding.navView.menu.findItem(R.id.logout).isVisible = false
             binding.navView.menu.findItem(R.id.nav_Restaurantes).isVisible = false
+            binding.navView.menu.findItem(R.id.nav_misReservas).isVisible = false
+            binding.navView.menu.findItem(R.id.nav_CrearRestaurante).isVisible = false
         }
     }
 
@@ -114,6 +117,8 @@ class MainActivity : AppCompatActivity() {
             findNavController(R.id.nav_host_fragment_content_restaurantes).navigate(R.id.nav_RestaurantesFiltro)
         }
     }
+
+
 
 
 

@@ -10,11 +10,17 @@ import com.example.movilesproyectofinal.models.dto.LoginResponseDTO
 import com.example.movilesproyectofinal.models.dto.RegisterRequestDTO
 import com.example.movilesproyectofinal.models.dto.ReservacionRequestDTO
 import com.example.movilesproyectofinal.models.dto.ReservacionResponseDTO
+import com.example.movilesproyectofinal.models.dto.RestaurantCreateRequestDTO
 import com.example.movilesproyectofinal.models.dto.RestauranteFiltroDTO
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface APIProyecto {
@@ -37,10 +43,45 @@ interface APIProyecto {
         @Path("id") id: Int
     ): Call<Menus>
 
+    @GET("restaurants")
+    fun getRestauranterByUsuario(): Call<Restaurantes>
+
+    @DELETE("restaurants/{id}")
+    fun deleteRestaurante(
+        @Path("id") id: Int
+    ): Call<Void>
+
+
+    @PUT("restaurants/{id}")
+    fun editRestaurante(
+        @Path("id") id: Int,
+        @Body restaurante: RestaurantCreateRequestDTO
+    ): Call<Void>
+
+
+    @Multipart
+    @POST("restaurants/{id}/logo")
+    fun uploadLogo(
+        @Path("id") id: Int,
+        @Part logo: MultipartBody.Part
+    ): Call<Void>
+
+    @Multipart
+    @POST("restaurants/{id}/photo")
+    fun uploadGallery(
+        @Path("id") id: Int,
+        @Part gallery: MultipartBody.Part
+    ): Call<Void>
+
     @POST("restaurants/search")
     fun getRestaurantesFiltered(
        @Body filter: RestauranteFiltroDTO
     ): Call<Restaurantes>
+
+    @POST("restaurants")
+    fun createRestaurant(
+        @Body restaurant: RestaurantCreateRequestDTO
+    ): Call<Void>
 
     @POST("reservations")
     fun makeReservation(
@@ -54,4 +95,9 @@ interface APIProyecto {
     fun cancelReservation(
         @Path("id") id: Long
     ): Call<Void>
+
+    @GET("restaurants/{id}/reservations")
+    fun getReservasByRestaurante(
+        @Path("id") id: Int
+    ): Call<ReservaList>
 }

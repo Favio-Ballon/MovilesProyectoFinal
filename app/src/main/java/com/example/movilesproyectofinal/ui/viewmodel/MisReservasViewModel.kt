@@ -49,4 +49,25 @@ class MisReservasViewModel : ViewModel() {
 
         }
     }
+
+    fun fetchReservasByRestaurante(token: String?, idRestaurante: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _showLoading.postValue(true)
+            RestauranteRepository.getReservasByRestaurante(
+                token!!,
+                idRestaurante,
+                success = { reservas ->
+                    reservas?.let {
+                        _reservas.postValue(it)
+                    }
+                    Log.d("RestaurantesViewModel", "fetchListaRestaurantes: ${reservas}")
+                    _showLoading.postValue(false)
+                },
+                failure = {
+                    _errorMessage.postValue(it.message)
+                    _showLoading.postValue(false)
+                    it.printStackTrace()
+                })
+        }
+    }
 }
