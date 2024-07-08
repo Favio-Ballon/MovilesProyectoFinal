@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.movilesproyectofinal.R
 import com.example.movilesproyectofinal.databinding.FragmentRestauranteReservacionBinding
 import com.example.movilesproyectofinal.models.Food
@@ -35,7 +36,9 @@ class RestauranteReservacionFragment : Fragment() {
         setUpViewModelObservers()
         setUpButtonListener()
 
-
+        Glide.with(this)
+            .load(R.drawable.loading)
+            .into(binding.imgLoading)
 
         return binding.root
     }
@@ -56,8 +59,10 @@ class RestauranteReservacionFragment : Fragment() {
         }
 
         model.reservacion.observe(viewLifecycleOwner) {
-            Toast.makeText(context, "Restaurante Reservado", Toast.LENGTH_SHORT).show()
-            findNavController().popBackStack()
+            if (it) {
+                Toast.makeText(context, "Restaurante Reservado", Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }
         }
 
         sharedViewModel.selectedData.observe(viewLifecycleOwner) {

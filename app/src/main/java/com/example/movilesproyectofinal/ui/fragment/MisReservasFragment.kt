@@ -83,12 +83,13 @@ class MisReservasFragment : Fragment(), ReservaAdappter.OnReservaClickListener {
 
     override fun onReservaClick(reserva: Reserva) {
         val bundle = Bundle()
-        bundle.putLong("restaurant_id", reserva.restaurant_id)
+        bundle.putLong("id", reserva.id)
         bundle.putString("fecha", reserva.date)
         bundle.putString("hora", reserva.time)
         bundle.putString("restauranteName", reserva.restaurant.name)
         bundle.putString("descripcion", reserva.restaurant.description)
         bundle.putString("logo", reserva.restaurant.logo)
+        bundle.putString("status", reserva.status)
 
         findNavController().navigate(R.id.nav_reservaDescripcion, bundle)
     }

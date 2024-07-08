@@ -8,6 +8,15 @@
 
     <!-- Imagen del logo del restaurante -->
     <ImageView
+        android:id="@+id/imgLoading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:src="@drawable/loading"
+        android:visibility="gone" />
+
+    <ImageView
         android:id="@+id/logoRestaurante"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
@@ -58,11 +67,22 @@
         android:textSize="16sp"
         android:textStyle="italic" />
 
+    <TextView
+        android:id="@+id/tv_estado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/horaReserva"
+        android:layout_marginTop="4dp"
+        android:text="Estado de la Reserva"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        />
+
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnCancelarReserva"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Cancelar Reserva"
         android:layout_alignParentBottom="true"
         />
 

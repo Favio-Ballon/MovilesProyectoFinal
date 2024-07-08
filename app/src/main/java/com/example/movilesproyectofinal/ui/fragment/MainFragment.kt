@@ -45,6 +45,12 @@ class MainFragment : Fragment() {
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         //close menu if it is open
         (activity as MainActivity).binding.drawerLayout.close()
+
+        if (PreferencesRepository.getIsLogged(context)) {
+            binding.root.visibility = View.GONE
+        }else{
+            binding.root.visibility = View.VISIBLE
+        }
     }
 
     private fun checkLogin() {

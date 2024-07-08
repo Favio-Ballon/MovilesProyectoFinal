@@ -49,4 +49,9 @@ interface APIProyecto {
 
     @GET("reservations")
     fun getReservas(): Call<ReservaList>
+
+    @POST("reservations/{id}/cancel")
+    fun cancelReservation(
+        @Path("id") id: Long
+    ): Call<Void>
 }
