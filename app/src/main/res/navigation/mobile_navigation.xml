@@ -47,5 +47,22 @@
         android:label="RestaurantesFiltro"
         tools:layout="@layout/fragment_restaurantes_filtro" />
 
+    <fragment
+        android:id="@+id/nav_RestauranteReservacion"
+        android:name="com.example.movilesproyectofinal.ui.fragment.RestauranteReservacionFragment"
+        android:label="RestauranteReservacion"
+        tools:layout="@layout/fragment_restaurante_reservacion" />
+
+    <fragment
+        android:id="@+id/nav_misReservas"
+        android:name="com.example.movilesproyectofinal.ui.fragment.MisReservasFragment"
+        android:label="Mis Reservas"
+        tools:layout="@layout/fragment_mis_reservas" />
+
+    <fragment
+        android:id="@+id/nav_reservaDescripcion"
+        android:name="com.example.movilesproyectofinal.ui.fragment.ReservaDescripcionFragment"
+        android:label="ReservaDescripcion"
+        tools:layout="@layout/fragment_reserva_descripcion" />
 
 </navigation>

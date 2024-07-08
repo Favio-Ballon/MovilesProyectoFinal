@@ -2,11 +2,14 @@ package com.example.movilesproyectofinal.api
 
 import com.example.movilesproyectofinal.models.Menu
 import com.example.movilesproyectofinal.models.Menus
+import com.example.movilesproyectofinal.models.ReservaList
 import com.example.movilesproyectofinal.models.Restaurante
 import com.example.movilesproyectofinal.models.Restaurantes
 import com.example.movilesproyectofinal.models.dto.LoginRequestDTO
 import com.example.movilesproyectofinal.models.dto.LoginResponseDTO
 import com.example.movilesproyectofinal.models.dto.RegisterRequestDTO
+import com.example.movilesproyectofinal.models.dto.ReservacionRequestDTO
+import com.example.movilesproyectofinal.models.dto.ReservacionResponseDTO
 import com.example.movilesproyectofinal.models.dto.RestauranteFiltroDTO
 import retrofit2.Call
 import retrofit2.http.Body
@@ -39,4 +42,11 @@ interface APIProyecto {
        @Body filter: RestauranteFiltroDTO
     ): Call<Restaurantes>
 
+    @POST("reservations")
+    fun makeReservation(
+        @Body reservation: ReservacionRequestDTO
+    ): Call<ReservacionResponseDTO>
+
+    @GET("reservations")
+    fun getReservas(): Call<ReservaList>
 }

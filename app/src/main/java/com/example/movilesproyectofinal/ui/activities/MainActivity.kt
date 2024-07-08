@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_Restaurantes, R.id.nav_Login, R.id.nav_Registrarse, R.id.logout
+                R.id.nav_Restaurantes, R.id.nav_Login, R.id.nav_Registrarse,R.id.nav_misReservas , R.id.logout
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -71,16 +71,21 @@ class MainActivity : AppCompatActivity() {
         return false
     }
 
+
+
     fun isLogged() {
         val token = PreferencesRepository.getIsLogged(this)
         if (token) {
             binding.navView.menu.findItem(R.id.nav_Login).isVisible = false
             binding.navView.menu.findItem(R.id.nav_Registrarse).isVisible = false
             binding.navView.menu.findItem(R.id.logout).isVisible = true
+            binding.navView.menu.findItem(R.id.nav_Restaurantes).isVisible = true
+            binding.navView.menu.findItem(R.id.nav_misReservas).isVisible = true
         }else{
             binding.navView.menu.findItem(R.id.nav_Login).isVisible = true
             binding.navView.menu.findItem(R.id.nav_Registrarse).isVisible = true
             binding.navView.menu.findItem(R.id.logout).isVisible = false
+            binding.navView.menu.findItem(R.id.nav_Restaurantes).isVisible = false
         }
     }
 
@@ -109,5 +114,7 @@ class MainActivity : AppCompatActivity() {
             findNavController(R.id.nav_host_fragment_content_restaurantes).navigate(R.id.nav_RestaurantesFiltro)
         }
     }
+
+
 
 }

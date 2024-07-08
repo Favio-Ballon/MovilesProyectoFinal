@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.fragment.ReservaDescripcionFragment">
+
+    <!-- Imagen del logo del restaurante -->
+    <ImageView
+        android:id="@+id/logoRestaurante"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/loading" />
+
+    <!-- Título del restaurante -->
+    <TextView
+        android:id="@+id/tituloRestaurante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoRestaurante"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="Título del Restaurante"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Descripción del restaurante -->
+    <TextView
+        android:id="@+id/descripcionRestaurante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tituloRestaurante"
+        android:layout_marginTop="8dp"
+        android:text="Descripción del Restaurante"
+        android:textSize="16sp" />
+
+    <!-- Fecha de la reserva -->
+    <TextView
+        android:id="@+id/fechaReserva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/descripcionRestaurante"
+        android:layout_marginTop="8dp"
+        android:text="Fecha de la Reserva"
+        android:textSize="16sp"
+        android:textStyle="italic" />
+
+    <!-- Hora de la reserva -->
+    <TextView
+        android:id="@+id/horaReserva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fechaReserva"
+        android:layout_marginTop="4dp"
+        android:text="Hora de la Reserva"
+        android:textSize="16sp"
+        android:textStyle="italic" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>

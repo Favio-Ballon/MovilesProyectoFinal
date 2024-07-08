@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.RestauranteReservacionFragment"
+    >
+
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_reserva_titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hacer una Reservación"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:paddingBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/et_fecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha (yyyy/mm/dd)"
+        android:inputType="date"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/et_hora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hora (hh:mm)"
+        android:inputType="time"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/et_cantidad_personas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cantidad de Personas"
+            android:inputType="number"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp"/>
+
+
+    <Button
+        android:id="@+id/btn_agregar_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar Platos"
+        android:background="@color/colorAccent"
+        android:textColor="@android:color/white"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        />
+
+    <Button
+        android:id="@+id/btn_agregar_reserva"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Realizar Reservación"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:padding="16dp" />
+
+</LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgLoading"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/loading"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

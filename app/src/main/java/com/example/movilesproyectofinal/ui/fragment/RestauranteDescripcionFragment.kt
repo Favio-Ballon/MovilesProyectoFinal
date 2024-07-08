@@ -138,9 +138,10 @@ class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClick
             if (!PreferencesRepository.getIsLogged(requireContext())) {
                 findNavController().navigate(R.id.nav_Login)
             }else{
-                Toast.makeText(context, "Se apreto reservar", Toast.LENGTH_SHORT).show()
+                val bundle = Bundle()
+                bundle.putLong("restauranteId", idRestaurante)
+                findNavController().navigate(R.id.nav_RestauranteReservacion, bundle)
             }
-
         }
 
     }

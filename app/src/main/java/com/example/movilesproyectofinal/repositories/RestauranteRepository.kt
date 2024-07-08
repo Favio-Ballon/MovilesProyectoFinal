@@ -1,9 +1,13 @@
 package com.example.movilesproyectofinal.repositories
 
+import android.util.Log
 import com.example.movilesproyectofinal.api.APIProyecto
 import com.example.movilesproyectofinal.models.Menus
+import com.example.movilesproyectofinal.models.ReservaList
 import com.example.movilesproyectofinal.models.Restaurante
 import com.example.movilesproyectofinal.models.Restaurantes
+import com.example.movilesproyectofinal.models.dto.ReservacionRequestDTO
+import com.example.movilesproyectofinal.models.dto.ReservacionResponseDTO
 import com.example.movilesproyectofinal.models.dto.RestauranteFiltroDTO
 import retrofit2.Call
 import retrofit2.Callback
@@ -74,6 +78,51 @@ object RestauranteRepository {
             }
 
             override fun onFailure(call: Call<Restaurantes>, t: Throwable) {
+                failure(t)
+            }
+        })
+    }
+
+    fun makeReservation(reservation: ReservacionRequestDTO, token: String, success: (ReservacionResponseDTO?) -> Unit, failure: (Throwable) -> Unit) {
+        val retrofit = RetrofitRepository.getReotrofitInstanceWithToken(token)
+
+        val service: APIProyecto = retrofit.create(APIProyecto::class.java)
+
+        service.makeReservation(reservation).enqueue(object : Callback<ReservacionResponseDTO> {
+            override fun onResponse(call: Call<ReservacionResponseDTO>, response: Response<ReservacionResponseDTO>) {
+                if (response.isSuccessful) {
+                    Log.d("Response", response.body().toString())
+                    success(response.body())
+                } else {
+                    Log.e("Error", "Error code: ${response.code()}, Error message: ${response.message()}")
+                    failure(Exception("Error code: ${response.code()}, Error message: ${response.message()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<ReservacionResponseDTO>, t: Throwable) {
+                Log.e("Failure", "Request failed", t)
+                failure(t)
+            }
+        })
+    }
+
+    fun getReservas(token: String, success: (ReservaList?) -> Unit, failure: (Throwable) -> Unit) {
+        val retrofit = RetrofitRepository.getReotrofitInstanceWithToken(token)
+
+        val service: APIProyecto = retrofit.create(APIProyecto::class.java)
+
+        service.getReservas().enqueue(object : Callback<ReservaList> {
+            override fun onResponse(call: Call<ReservaList>, response: Response<ReservaList>) {
+                if (response.isSuccessful) {
+                    success(response.body())
+                } else {
+                    Log.e("Error", "Error code: ${response.code()}, Error message: ${response.message()}")
+                    failure(Exception("Error code: ${response.code()}, Error message: ${response.message()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<ReservaList>, t: Throwable) {
+                Log.e("Failure", "Request failed", t)
                 failure(t)
             }
         })
