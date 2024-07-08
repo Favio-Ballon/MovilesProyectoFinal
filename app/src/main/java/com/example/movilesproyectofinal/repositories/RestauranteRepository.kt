@@ -445,4 +445,64 @@ object RestauranteRepository {
             }
         })
     }
+
+    fun deleteMenu(
+        token: String,
+        id: Int,
+        success: () -> Unit,
+        failure: (Throwable) -> Unit
+    ) {
+        val retrofit = RetrofitRepository.getReotrofitInstanceWithToken(token)
+
+        val service: APIProyecto = retrofit.create(APIProyecto::class.java)
+
+        service.deleteMenu(id).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    success()
+                } else {
+                    Log.e(
+                        "Error",
+                        "Error code: ${response.code()}, Error message: ${response.message()}"
+                    )
+                    failure(Exception("Error code: ${response.code()}, Error message: ${response.message()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.e("Failure", "Request failed", t)
+                failure(t)
+            }
+        })
+    }
+
+    fun deletePlate(
+        token: String,
+        id: Int,
+        success: () -> Unit,
+        failure: (Throwable) -> Unit
+    ) {
+        val retrofit = RetrofitRepository.getReotrofitInstanceWithToken(token)
+
+        val service: APIProyecto = retrofit.create(APIProyecto::class.java)
+
+        service.deletePlate(id).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    success()
+                } else {
+                    Log.e(
+                        "Error",
+                        "Error code: ${response.code()}, Error message: ${response.message()}"
+                    )
+                    failure(Exception("Error code: ${response.code()}, Error message: ${response.message()}"))
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Log.e("Failure", "Request failed", t)
+                failure(t)
+            }
+        })
+    }
 }

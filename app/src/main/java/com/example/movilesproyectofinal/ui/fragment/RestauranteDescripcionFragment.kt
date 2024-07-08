@@ -83,6 +83,9 @@ class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClick
             Toast.makeText(context, "Se apreto menu", Toast.LENGTH_SHORT).show()
             val bundle = Bundle()
             bundle.putLong("restauranteId", idRestaurante)
+            if(isOwner){
+                bundle.putBoolean("isOwner", true)
+            }
             findNavController().navigate(R.id.nav_Menu, bundle)
         }
 
@@ -159,6 +162,9 @@ class RestauranteDescripcionFragment : Fragment(), GaleriaAdapter.OnGaleriaClick
             Toast.makeText(context, "Se apreto menu", Toast.LENGTH_SHORT).show()
             val bundle = Bundle()
             bundle.putLong("restauranteId", idRestaurante)
+            if(isOwner){
+                bundle.putBoolean("isOwner", true)
+            }
             findNavController().navigate(R.id.nav_Menu, bundle)
         }
         binding.btnReservar.setOnClickListener {

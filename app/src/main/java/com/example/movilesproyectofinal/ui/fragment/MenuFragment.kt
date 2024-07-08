@@ -23,10 +23,12 @@ class MenuFragment : Fragment(), MenuAdapter.OnMenuClickListener,
     PlatoAdapter.OnPlatoClickListener {
     lateinit var binding: FragmentMenuBinding
     private val model: MenuViewModel by viewModels()
-    private var isReservacion : Boolean = false
+    private var isReservacion: Boolean = false
     val sharedViewModel: SharedViewModel by activityViewModels()
 
     private var food = ArrayList<Food>()
+
+    var isOwner = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,7 @@ class MenuFragment : Fragment(), MenuAdapter.OnMenuClickListener,
 
         val restaurante = arguments?.getLong("restauranteId")
         isReservacion = arguments?.getBoolean("isReservacion") ?: false
+        isOwner = arguments?.getBoolean("isOwner") ?: false
 
         if (restaurante != null) {
             model.fetchListaMenus(restaurante.toInt())
@@ -51,13 +54,59 @@ class MenuFragment : Fragment(), MenuAdapter.OnMenuClickListener,
                 .show()
         }
 
-        if(isReservacion){
+
+        if (isOwner) {
+            binding.btnGuardarComida.visibility = View.VISIBLE
+            binding.btnCrearCategoria.visibility = View.VISIBLE
+
+            binding.btnGuardarComida.text = "Crear Comida"
+
+            setOwnerButtonListener()
+
+        } else if (isReservacion) {
+            binding.btnCrearCategoria.visibility = View.GONE
             binding.btnGuardarComida.visibility = View.VISIBLE
             setButtonListener()
+        }else{
+            binding.btnCrearCategoria.visibility = View.GONE
+            binding.btnGuardarComida.visibility = View.GONE
         }
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isOwner) {
+            binding.btnGuardarComida.visibility = View.VISIBLE
+            binding.btnCrearCategoria.visibility = View.VISIBLE
+
+            binding.btnGuardarComida.text = "Crear Comida"
+
+            setOwnerButtonListener()
+
+        } else if (isReservacion) {
+            binding.btnCrearCategoria.visibility = View.GONE
+            binding.btnGuardarComida.visibility = View.VISIBLE
+            setButtonListener()
+        }else{
+            binding.btnCrearCategoria.visibility = View.GONE
+            binding.btnGuardarComida.visibility = View.GONE
+        }
+    }
+
+
+    fun setOwnerButtonListener() {
+        binding.btnGuardarComida.visibility = View.VISIBLE
+        binding.btnCrearCategoria.visibility = View.VISIBLE
+        binding.btnGuardarComida.setOnClickListener {
+
+        }
+
+        binding.btnCrearCategoria.setOnClickListener {
+
+        }
     }
 
     fun setupViewModelObservers() {
@@ -70,7 +119,7 @@ class MenuFragment : Fragment(), MenuAdapter.OnMenuClickListener,
         }
         model.menus.observe(viewLifecycleOwner) {
             val lstMenu = binding.rvMenuCategoria
-            lstMenu.adapter = MenuAdapter(it, this)
+            lstMenu.adapter = MenuAdapter(it, isOwner,this)
         }
     }
 
@@ -78,30 +127,52 @@ class MenuFragment : Fragment(), MenuAdapter.OnMenuClickListener,
 
         binding.rvMenuCategoria.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            adapter = MenuAdapter(arrayListOf(), this@MenuFragment)
+            if (isOwner) {
+                adapter = MenuAdapter(arrayListOf(), isOwner, this@MenuFragment)
+            } else {
+                adapter = MenuAdapter(arrayListOf(), false, this@MenuFragment)
+            }
         }
 
-
-        if (isReservacion) {
+        if (isOwner) {
             binding.rvMenuPlato.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                adapter = PlatoAdapter(arrayListOf(),true ,food,this@MenuFragment)
+                layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                adapter = PlatoAdapter(arrayListOf(), false, isOwner, food, this@MenuFragment)
             }
+
         } else {
-            binding.rvMenuPlato.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                adapter = PlatoAdapter(arrayListOf(),false,food, this@MenuFragment)
+            if (isReservacion) {
+                binding.rvMenuPlato.apply {
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    adapter = PlatoAdapter(arrayListOf(), true, false, food, this@MenuFragment)
+                }
+            } else {
+                binding.rvMenuPlato.apply {
+                    layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    adapter = PlatoAdapter(arrayListOf(), false, false, food, this@MenuFragment)
+                }
             }
         }
     }
 
     override fun onMenuClick(menu: Menu) {
         val lstPlato = binding.rvMenuPlato
-        if(isReservacion)
-            lstPlato.adapter = PlatoAdapter(menu.plates, true, food,this)
-        else{
-            lstPlato.adapter = PlatoAdapter(menu.plates, false, food,this)
+        if (isReservacion)
+            lstPlato.adapter = PlatoAdapter(menu.plates, true,false, food, this)
+        else {
+            lstPlato.adapter = PlatoAdapter(menu.plates, false,isOwner, food, this)
         }
+    }
+
+    override fun onMenuEditarClick(menu: Menu) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMenuBorrarClick(menu: Menu) {
+        TODO("Not yet implemented")
     }
 
     override fun botonAumentar(plato: Plate) {
@@ -124,9 +195,18 @@ class MenuFragment : Fragment(), MenuAdapter.OnMenuClickListener,
         }
     }
 
-    fun setButtonListener(){
+    override fun editarPlato(plato: Plate) {
+        TODO("Not yet implemented")
+    }
+
+    override fun borrarPlato(plato: Plate) {
+        TODO("Not yet implemented")
+    }
+
+    fun setButtonListener() {
         binding.btnGuardarComida.setOnClickListener {
             sharedViewModel.selectedData.value = food
+
             findNavController().popBackStack()
         }
     }

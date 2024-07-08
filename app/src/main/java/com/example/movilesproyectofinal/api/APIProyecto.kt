@@ -113,4 +113,15 @@ interface APIProyecto {
         @Path("id") id: Int
     ): Call<Reserva>
 
+
+    @DELETE("plates/{id}")
+    fun deletePlate(
+        @Path("id") id: Int
+    ): Call<Void>
+
+    @DELETE("menu-categories/{id}")
+    fun deleteMenu(
+        @Path("id") id: Int
+    ):Call<Void>
+
 }

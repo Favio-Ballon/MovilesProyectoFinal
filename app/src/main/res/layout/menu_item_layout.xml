@@ -12,15 +12,44 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:backgroundTint="?android:attr/colorPrimary"
-
         android:padding="16dp"
         android:text="Menu Item"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- ImageButton de Editar -->
+    <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="10dp"
+        android:src="@android:drawable/ic_menu_edit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+        app:layout_constraintStart_toEndOf="@+id/menuItemButton"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        />
+
+    <!-- ImageButton de Borrar -->
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="10dp"
+        android:src="@android:drawable/ic_menu_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.473"
+        android:visibility="gone"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

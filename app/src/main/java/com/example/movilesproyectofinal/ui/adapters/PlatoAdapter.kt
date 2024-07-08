@@ -12,6 +12,7 @@ import com.example.movilesproyectofinal.models.Food
 class PlatoAdapter(
     private val platos: List<Plate>,
     private val isReservacion: Boolean,
+    private val isOwner: Boolean,
     private var food : ArrayList<Food>,
     private val listener: OnPlatoClickListener
 ) : RecyclerView.Adapter<PlatoAdapter.PlatoViewHolder>() {
@@ -23,13 +24,13 @@ class PlatoAdapter(
 
     override fun onBindViewHolder(holder: PlatoViewHolder, position: Int) {
         val plato = platos[position]
-        holder.bind(plato, listener)
+        holder.bind(plato,isOwner ,listener)
     }
 
     override fun getItemCount(): Int = platos.size
 
     inner class PlatoViewHolder(private val binding: PlatoItemLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(plato: Plate, listener: OnPlatoClickListener) {
+        fun bind(plato: Plate,isOwner: Boolean ,listener: OnPlatoClickListener) {
             binding.txtPlatoNombre.text = plato.name
             binding.txtPrecio.text = plato.price
             binding.txtPlatoDescripcion.text = plato.description
@@ -44,19 +45,42 @@ class PlatoAdapter(
             Log.d("PlatoAdapter", "Entrando en el bind ${isReservacion}")
             if (isReservacion) {
                 Log.d("PlatoAdapter", "Entrando en el if")
-                binding.numberButtons.visibility = View.VISIBLE
 
-                binding.btnDecrease.setOnClickListener {
-                    val cantidad = binding.txttNumberQuantity.text.toString().toInt()
-                    if (cantidad > 0) {
-                        binding.txttNumberQuantity.text = (cantidad - 1).toString()
-                        listener.botonDisminuir(plato)
+                if(isOwner){
+                    binding.numberButtons.visibility = View.GONE
+                    binding.btnOwner.visibility = View.VISIBLE
+
+                    binding.btnPlatoEditar.visibility = View.VISIBLE
+                    binding.btnPlatoBorrar.visibility = View.VISIBLE
+
+                    binding.btnPlatoBorrar.setOnClickListener{
+                        listener.borrarPlato(plato)
                     }
-                }
-                binding.btnIncrease.setOnClickListener {
-                    val cantidad = binding.txttNumberQuantity.text.toString().toInt()
-                    binding.txttNumberQuantity.text = (cantidad + 1).toString()
-                    listener.botonAumentar(plato)
+
+                    binding.btnPlatoEditar.setOnClickListener{
+                        listener.editarPlato(plato)
+                    }
+
+                }else {
+                    binding.btnOwner.visibility = View.GONE
+
+                    binding.btnPlatoEditar.visibility = View.GONE
+                    binding.btnPlatoBorrar.visibility = View.GONE
+
+                    binding.numberButtons.visibility = View.VISIBLE
+
+                    binding.btnDecrease.setOnClickListener {
+                        val cantidad = binding.txttNumberQuantity.text.toString().toInt()
+                        if (cantidad > 0) {
+                            binding.txttNumberQuantity.text = (cantidad - 1).toString()
+                            listener.botonDisminuir(plato)
+                        }
+                    }
+                    binding.btnIncrease.setOnClickListener {
+                        val cantidad = binding.txttNumberQuantity.text.toString().toInt()
+                        binding.txttNumberQuantity.text = (cantidad + 1).toString()
+                        listener.botonAumentar(plato)
+                    }
                 }
             }
 
@@ -67,5 +91,7 @@ class PlatoAdapter(
     interface OnPlatoClickListener {
         fun botonAumentar(plato: Plate)
         fun botonDisminuir(plato: Plate)
+        fun editarPlato(plato: Plate)
+        fun borrarPlato(plato: Plate)
     }
 }
