@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
             navView.menu.findItem(R.id.nav_Restaurantes).isVisible = true
             navView.menu.findItem(R.id.nav_Login).isVisible = true
             navView.menu.findItem(R.id.nav_Registrarse).isVisible = true
+            navView.menu.findItem(R.id.nav_misReservas).isVisible = false
         }
 
         binding.appBarRestaurantes.fab.hide()
@@ -89,6 +90,8 @@ class MainActivity : AppCompatActivity() {
             binding.navView.menu.findItem(R.id.nav_Restaurantes).isVisible = false
             binding.navView.menu.findItem(R.id.nav_misReservas).isVisible = false
             binding.navView.menu.findItem(R.id.nav_CrearRestaurante).isVisible = false
+            binding.navView.menu.findItem(R.id.nav_misRestaurantes).isVisible = false
+
         }
     }
 

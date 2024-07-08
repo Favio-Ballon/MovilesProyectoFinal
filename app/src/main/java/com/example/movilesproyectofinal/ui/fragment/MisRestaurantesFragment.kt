@@ -14,6 +14,7 @@ import com.example.movilesproyectofinal.R
 import com.example.movilesproyectofinal.databinding.FragmentMisRestaurantesBinding
 import com.example.movilesproyectofinal.models.Restaurante
 import com.example.movilesproyectofinal.repositories.PreferencesRepository
+import com.example.movilesproyectofinal.ui.activities.MainActivity
 import com.example.movilesproyectofinal.ui.adapters.RestaurantesAdapter
 import com.example.movilesproyectofinal.ui.adapters.misRestaurantesAdapter
 import com.example.movilesproyectofinal.ui.viewmodel.MisRestaurantesViewModel
@@ -45,6 +46,13 @@ class MisRestaurantesFragment : Fragment(), misRestaurantesAdapter.OnMisRestaura
 
         return binding.root
     }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).binding.appBarRestaurantes.toolbar.visibility = View.VISIBLE
+        (activity as MainActivity).binding.appBarRestaurantes.fab.hide()
+    }
+
 
 
     fun setupViewModelObservers() {

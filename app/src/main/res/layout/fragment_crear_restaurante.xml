@@ -63,11 +63,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/description"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="233dp"
-        android:layout_marginTop="321dp"
+        android:layout_marginStart="231dp"
+        android:layout_marginTop="166dp"
         android:layout_marginBottom="16dp"
-        android:visibility="gone"
-        android:text="Cambiar Logo" />
+        android:text="Cambiar Logo"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btnAddPhotoGallery"
@@ -76,10 +76,10 @@
         android:layout_below="@id/description"
         android:layout_alignParentStart="true"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="322dp"
+        android:layout_marginTop="167dp"
         android:layout_marginBottom="16dp"
-        android:visibility="gone"
-        android:text="Agregar Foto Galería" />
+        android:text="Agregar Foto Galería"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btnCreate"
