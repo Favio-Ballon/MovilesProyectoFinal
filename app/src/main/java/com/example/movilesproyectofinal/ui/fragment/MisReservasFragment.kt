@@ -63,7 +63,12 @@ class MisReservasFragment : Fragment(), ReservaAdappter.OnReservaClickListener {
         model.reserva.observe(viewLifecycleOwner) {
             if (it != null) {
                 val lstRestaurantes = binding.rvReservas
-                lstRestaurantes.adapter = ReservaAdappter(it, this)
+                if (id !=null) {
+                    val filteredReservas = it.filter { reserva -> reserva.status == "pending" }
+                    lstRestaurantes.adapter = ReservaAdappter(filteredReservas, true, this)
+                }else{
+                    lstRestaurantes.adapter = ReservaAdappter(it,false ,this)
+                }
             }
         }
         model.errorMessage.observe(viewLifecycleOwner) {
@@ -84,19 +89,23 @@ class MisReservasFragment : Fragment(), ReservaAdappter.OnReservaClickListener {
     fun setUpRecyclerView() {
         binding.rvReservas.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = ReservaAdappter(arrayListOf(), this@MisReservasFragment)
+            adapter = ReservaAdappter(arrayListOf(),false, this@MisReservasFragment)
         }
     }
 
     override fun onReservaClick(reserva: Reserva) {
         val bundle = Bundle()
         bundle.putLong("id", reserva.id)
-        bundle.putString("fecha", reserva.date)
-        bundle.putString("hora", reserva.time)
-        bundle.putString("restauranteName", reserva.restaurant.name)
-        bundle.putString("descripcion", reserva.restaurant.description)
-        bundle.putString("logo", reserva.restaurant.logo)
-        bundle.putString("status", reserva.status)
+        if (id != null){
+            bundle.putBoolean("isOwner", true)
+        }else {
+            bundle.putString("fecha", reserva.date)
+            bundle.putString("hora", reserva.time)
+            bundle.putString("status", reserva.status)
+            bundle.putString("restauranteName", reserva.restaurant.name)
+            bundle.putString("descripcion", reserva.restaurant.description)
+            bundle.putString("logo", reserva.restaurant.logo)
+        }
 
         findNavController().navigate(R.id.nav_reservaDescripcion, bundle)
     }

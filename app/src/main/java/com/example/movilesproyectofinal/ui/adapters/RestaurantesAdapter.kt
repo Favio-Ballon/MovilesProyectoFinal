@@ -12,7 +12,7 @@ import com.example.movilesproyectofinal.models.Restaurante
 import com.example.movilesproyectofinal.models.Restaurantes
 
 class RestaurantesAdapter(
-    val RestauranteList: Restaurantes, val listener: OnRestauranteClickListener
+    val RestauranteList: Restaurantes ,val listener: OnRestauranteClickListener
 ) : RecyclerView.Adapter<RestaurantesAdapter.RestauranteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RestauranteViewHolder {

@@ -86,4 +86,15 @@
         android:layout_alignParentBottom="true"
         />
 
+    <Button
+        android:id="@+id/btnAprobarReserva"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnCancelarReserva"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="13dp"
+        android:text="Aprobar reserva"
+        android:visibility="gone" />
+
 </RelativeLayout>

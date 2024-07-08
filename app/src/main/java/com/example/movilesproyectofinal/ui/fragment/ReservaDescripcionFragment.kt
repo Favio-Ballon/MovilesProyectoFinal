@@ -1,6 +1,7 @@
 package com.example.movilesproyectofinal.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,8 @@ class ReservaDescripcionFragment : Fragment() {
     lateinit var binding : FragmentReservaDescripcionBinding
     var id : Long? = null //restaurant id
     val model : ReservaDescripcionViewModel by viewModels()
+
+    var isOwner : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +44,15 @@ class ReservaDescripcionFragment : Fragment() {
         val descripcion = bundle?.getString("descripcion")
         val link = bundle?.getString("logo")
         val estado = bundle?.getString("status")
+        isOwner = bundle?.getBoolean("isOwner") ?: false
+        Log.d("isOwner", isOwner.toString())
         id = bundle?.getLong("id")
 
-    if (bundle != null) {
+    if(isOwner){
+        binding.btnAprobarReserva.visibility = View.VISIBLE
+        model.fetchReserva(id!!, PreferencesRepository.getToken(context)!!)
+
+    } else if (bundle != null ) {
 
         binding.tituloRestaurante.text = nombre
         binding.fechaReserva.text = fecha
@@ -53,10 +62,11 @@ class ReservaDescripcionFragment : Fragment() {
         Glide.with(this)
             .load(link)
             .into(binding.logoRestaurante)
+
     }
         setUpViewModelListener()
         setButtonListener()
-        if(estado == "canceled"){
+        if(estado == "canceled" || estado == "confirm"){
             binding.btnCancelarReserva.isVisible = false
         }
 
@@ -77,6 +87,9 @@ class ReservaDescripcionFragment : Fragment() {
         binding.btnCancelarReserva.setOnClickListener {
             model.cancelarReserva(id!!, PreferencesRepository.getToken(context)!!)
         }
+        binding.btnAprobarReserva.setOnClickListener{
+            model.aprovarReserva(id!!, PreferencesRepository.getToken(context)!!)
+        }
     }
 
     fun setUpViewModelListener(){
@@ -96,6 +109,28 @@ class ReservaDescripcionFragment : Fragment() {
             if(it){
                 binding.tvEstado.text = "Estado: canceled"
                 binding.btnCancelarReserva.isVisible = false
+                binding.btnAprobarReserva.isVisible = false
+            }
+        }
+
+        model.cancelado.observe(viewLifecycleOwner){
+            if(it){
+                binding.tvEstado.text = "Estado: confirm"
+                binding.btnAprobarReserva.isVisible = false
+                binding.btnAprobarReserva.isVisible = false
+            }
+        }
+
+        model.reserva.observe(viewLifecycleOwner){
+            if(it != null){
+                binding.tituloRestaurante.text = it.user.name
+                binding.fechaReserva.text = it.date
+                binding.horaReserva.text = it.time
+                binding.descripcionRestaurante.text = it.user.email
+                binding.tvEstado.text = "Estado: ${it.status}"
+                Glide.with(this)
+                    .load(it.restaurant.logo)
+                    .into(binding.logoRestaurante)
             }
         }
     }

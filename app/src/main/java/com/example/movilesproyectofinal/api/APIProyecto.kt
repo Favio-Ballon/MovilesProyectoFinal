@@ -2,6 +2,7 @@ package com.example.movilesproyectofinal.api
 
 import com.example.movilesproyectofinal.models.Menu
 import com.example.movilesproyectofinal.models.Menus
+import com.example.movilesproyectofinal.models.Reserva
 import com.example.movilesproyectofinal.models.ReservaList
 import com.example.movilesproyectofinal.models.Restaurante
 import com.example.movilesproyectofinal.models.Restaurantes
@@ -96,8 +97,20 @@ interface APIProyecto {
         @Path("id") id: Long
     ): Call<Void>
 
+    @POST("reservations/{id}/confirm")
+    fun confirmReservation(
+        @Path("id") id: Long
+    ): Call<Void>
+
+
     @GET("restaurants/{id}/reservations")
     fun getReservasByRestaurante(
         @Path("id") id: Int
     ): Call<ReservaList>
+
+    @GET("reservations/{id}")
+    fun getReservaById(
+        @Path("id") id: Int
+    ): Call<Reserva>
+
 }

@@ -41,16 +41,6 @@ class SubirImagenViewModel : ViewModel() {
         _selectedImageBitmap.value = bitmap
     }
 
-    fun subirImagen(id: Long, isLogo: Boolean, imagen: Bitmap, token: String?) {
-        if (token != null && token.isNotEmpty() && id > 0) {
-            if (isLogo) {
-                subirLogo(id, imagen, token)
-            } else {
-                subirGaleria(id, imagen, token)
-            }
-        }
-    }
-
     fun subirLogo(id: Long, imagen: Bitmap, token: String) {
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -70,6 +60,16 @@ class SubirImagenViewModel : ViewModel() {
                 })
 
 
+        }
+    }
+
+    fun subirImagen(id: Long, isLogo: Boolean, imagen: Bitmap, token: String?) {
+        if (token != null && token.isNotEmpty() && id > 0) {
+            if (isLogo) {
+                subirLogo(id, imagen, token)
+            } else {
+                subirGaleria(id, imagen, token)
+            }
         }
     }
 
